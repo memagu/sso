@@ -1200,7 +1200,7 @@
 
     .promise-grid {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 1rem;
     }
 
@@ -3286,10 +3286,6 @@
         grid-template-columns: 1fr 1fr;
       }
 
-      .promise-card:last-child {
-        grid-column: 1 / -1;
-      }
-
       .split-head,
       .why-grid,
       .check-layout,
@@ -3791,8 +3787,8 @@
           <article class="info-card reveal" style="--d: 5">
             <span class="card-icon" aria-hidden="true">🤝</span>
             <h3>SRD</h3>
-            <p>Posten sitter lite halvt i SRD. Jag vill vara där på riktigt, inte bara som en rad i protokollet.</p>
-            <span class="card-tag">Närvaro, inte bara titel</span>
+            <p>Posten sitter lite halvt i SRD. Jag tar arbetsmiljöfrågorna dit när de hör hemma där.</p>
+            <span class="card-tag">Rätt instans</span>
           </article>
         </div>
 
@@ -3923,12 +3919,12 @@
     </section>
 
     <!-- 5. Löften -->
-    <section class="slide slide--promises" id="slide-6" data-bg="LÖFTEN" data-title="Tre löften" aria-hidden="true">
+    <section class="slide slide--promises" id="slide-6" data-bg="LÖFTEN" data-title="Två löften" aria-hidden="true">
       <span class="slide-number" aria-hidden="true">05</span>
       <div class="slide-inner">
         <p class="eyebrow reveal">05 · Löftena</p>
         <div class="split-head">
-          <h2 class="display-lg reveal" style="--d: 1">Tre löften.<br><span class="highlight">Inga mirakel.</span></h2>
+          <h2 class="display-lg reveal" style="--d: 1">Två löften.<br><span class="highlight">Inga mirakel.</span></h2>
           <p class="lead reveal" style="--d: 2">Jag lovar inte att <span data-cfg="area">E-huset</span> blir ett spa. Jag lovar ett skyddsombud som gör jobbet.</p>
         </div>
 
@@ -3941,12 +3937,6 @@
           </article>
           <article class="promise-card reveal" style="--d: 4">
             <span class="promise-num">02</span>
-            <h3>Vara nära SRD</h3>
-            <p>Jag vill vara med på SRD-mötena och hjälpa till på riktigt, inte bara stå som en rad i protokollet.</p>
-            <span class="promise-icon" aria-hidden="true">🤝</span>
-          </article>
-          <article class="promise-card reveal" style="--d: 5">
-            <span class="promise-num">03</span>
             <h3>Göra det lätt att höra av sig</h3>
             <p>Låg tröskel, tydlig info och tystnadsplikt. Du ska inte behöva veta vem du ska prata med. Det räcker att du pratar med mig.</p>
             <span class="promise-icon" aria-hidden="true">🫶</span>
@@ -3954,11 +3944,11 @@
         </div>
 
         <div class="promise-footer">
-          <div class="bonus reveal" style="--d: 6">
+          <div class="bonus reveal" style="--d: 5">
             <button class="bonus-btn" id="bonusBtn" type="button">Ge mig ett bonuslöfte</button>
             <p class="bonus-text" id="bonusText" aria-live="polite">”Jag lovar att tjata på Huset tills det är fixat.”</p>
           </div>
-          <div class="tjatt-meter reveal" style="--d: 7">
+          <div class="tjatt-meter reveal" style="--d: 6">
             <div class="meter-label"><span>Tjat-meter</span><strong>11/10</strong></div>
             <div class="meter" aria-hidden="true">
               <span class="meter-fill"></span>
@@ -4036,7 +4026,7 @@
               <div class="check-row"><span class="check-box" aria-hidden="true">✓</span><span>Lyssnar färdigt innan jag föreslår en lösning.</span></div>
               <div class="check-row"><span class="check-box" aria-hidden="true">✓</span><span>Förstår att tystnadsplikt betyder tyst.</span></div>
               <div class="check-row"><span class="check-box" aria-hidden="true">✓</span><span>Är bekväm med att tjata på folk med ansvar.</span></div>
-              <div class="check-row"><span class="check-box" aria-hidden="true">✓</span><span>Vill vara med i SRD på riktigt.</span></div>
+              <div class="check-row"><span class="check-box" aria-hidden="true">✓</span><span>Vet när en fråga hör hemma i SRD.</span></div>
               <div class="check-row"><span class="check-box" aria-hidden="true">✓</span><span>Kommer ihåg att återkoppla. Även när svaret är ”det tar tid”.</span></div>
               <div class="check-row is-off"><span class="check-box" aria-hidden="true">✕</span><span>Lovar att <span data-cfg="area">E-huset</span> blir ett spa.</span></div>
               <div class="check-row is-off"><span class="check-box" aria-hidden="true">✕</span><span>Tänker göra allt själv.</span></div>
@@ -4156,7 +4146,7 @@
         <span>Rapportera trasigt</span>
         <span>Följ upp</span>
         <span>Tystnadsplikt</span>
-        <span>SRD-närvaro</span>
+        <span>Studierådet</span>
         <span>E-huset först</span>
         <span>Inga fler ”det står på listan”</span>
         <span>Våga säga till</span>
@@ -4225,7 +4215,7 @@
         <span>Rapportera trasigt</span>
         <span>Följ upp</span>
         <span>Tystnadsplikt</span>
-        <span>SRD-närvaro</span>
+        <span>Studierådet</span>
         <span>E-huset först</span>
         <span>Inga fler ”det står på listan”</span>
         <span>Våga säga till</span>
@@ -5150,7 +5140,7 @@
         "Jag lovar att ta upp trasiga saker innan de blir en meme.",
         "Jag lovar att fika räknas som arbetsmiljö. Det är det också.",
         "Jag lovar att inte säga ”det är på listan” utan att veta var listan är.",
-        "Jag lovar att vara mer närvarande i SRD än en symbolisk stol.",
+        "Jag lovar att ta psykosociala frågor på lika stort allvar som en trasig lampa.",
         "Jag lovar att hålla koll på E-huset även när ingen har klagat på en vecka."
       ];
       let bonusIndex = 0;
