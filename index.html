@@ -1782,48 +1782,68 @@
       width: 100%;
     }
 
-    .final-url-card {
-      display: block;
-      width: min(100%, 400px);
-      padding: 0.85rem 1rem;
+    .final-url-stamp {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.16rem;
+      width: min(100%, 330px);
+      padding: 0.55rem 0.9rem 0.6rem;
       border: 3px solid var(--ink);
       background: var(--yellow);
-      box-shadow: 8px 8px 0 var(--ink);
+      box-shadow: 5px 5px 0 var(--ink);
       color: var(--ink);
       text-decoration: none;
-      transform: rotate(-1.5deg);
-      animation: url-card-pop 2.8s ease-in-out infinite;
+      opacity: 0;
+      visibility: hidden;
+      transform: rotate(-8deg) scale(0.72);
+      transition: opacity 220ms ease, transform 220ms ease, visibility 220ms ease;
     }
 
-    .final-url-card:hover {
-      transform: rotate(-1.5deg) translate(-2px, -2px);
-      box-shadow: 10px 10px 0 var(--ink);
+    .final-url-stamp::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border: 2px dashed rgba(21, 21, 21, 0.45);
+      pointer-events: none;
     }
 
-    .final-url-label {
+    .final-url-stamp.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: rotate(-4deg) scale(1);
+      animation: stamp-arrive 480ms cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .final-url-stamp:hover {
+      transform: rotate(-4deg) translate(-2px, -2px);
+      box-shadow: 7px 7px 0 var(--ink);
+    }
+
+    .final-url-stamp .stamp-label {
       display: block;
-      font-size: 0.58rem;
+      font-size: 0.5rem;
       font-weight: 700;
-      letter-spacing: 0.13em;
+      letter-spacing: 0.14em;
       line-height: 1;
       text-transform: uppercase;
     }
 
-    .final-url-card strong {
+    .final-url-stamp strong {
       display: block;
-      margin-top: 0.2rem;
       font-family: var(--font-display);
-      font-size: clamp(1.35rem, 2.2vw, 1.9rem);
+      font-size: clamp(1.05rem, 1.7vw, 1.35rem);
       letter-spacing: -0.045em;
       line-height: 0.95;
       text-transform: uppercase;
       white-space: nowrap;
     }
 
-    .final-url-hint {
+    .final-url-stamp .stamp-hint {
       display: block;
-      margin-top: 0.3rem;
-      font-size: 0.58rem;
+      font-size: 0.48rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       line-height: 1;
@@ -3037,9 +3057,10 @@
       to { transform: translateX(-50%) scaleY(1.08) scaleX(1.05); }
     }
 
-    @keyframes url-card-pop {
-      0%, 100% { box-shadow: 8px 8px 0 var(--ink); }
-      50% { box-shadow: 8px 8px 0 var(--ink), 0 0 0 8px rgba(255, 212, 0, 0.22); }
+    @keyframes stamp-arrive {
+      0% { opacity: 0; transform: rotate(-12deg) scale(0.65); }
+      62% { opacity: 1; transform: rotate(-3deg) scale(1.06); }
+      100% { opacity: 1; transform: rotate(-4deg) scale(1); }
     }
 
     @keyframes url-pop-in {
@@ -3992,10 +4013,10 @@
               <span class="ballot-stamp">Från golvet · För E-huset</span>
             </aside>
 
-            <a class="final-url-card reveal" style="--d: 4" href="https://sso.gemiglite.nu" target="_blank" rel="noopener">
-              <span class="final-url-label">Presentationen finns på</span>
+            <a class="final-url-stamp" id="urlStamp" href="https://sso.gemiglite.nu" target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">
+              <span class="stamp-label">Presentationen finns på</span>
               <strong>sso.gemiglite.nu</strong>
-              <span class="final-url-hint">Öppna på mobilen →</span>
+              <span class="stamp-hint">Öppna på mobilen</span>
             </a>
           </div>
         </div>
@@ -4720,13 +4741,56 @@
       }, { passive: true });
 
       const urlPop = $("#urlPop");
-      let urlPopTimer = 0;
-      let finalUrlTimer = 0;
+      const urlPopCard = $(".url-pop__card", urlPop);
+      const urlStamp = $("#urlStamp");
+      let urlRevealTimer = 0;
+      let urlUnlocked = false;
 
-      function showUrlPop(duration = 3600) {
+      function showUrlPop() {
+        urlPopCard.getAnimations().forEach((animation) => animation.cancel());
         urlPop.classList.add("is-visible");
-        window.clearTimeout(urlPopTimer);
-        urlPopTimer = window.setTimeout(() => urlPop.classList.remove("is-visible"), duration);
+      }
+
+      function resetUrlStamp() {
+        urlStamp.classList.remove("is-visible");
+        urlStamp.setAttribute("aria-hidden", "true");
+        urlStamp.setAttribute("tabindex", "-1");
+      }
+
+      function revealUrlStamp() {
+        urlStamp.classList.add("is-visible");
+        urlStamp.removeAttribute("aria-hidden");
+        urlStamp.removeAttribute("tabindex");
+      }
+
+      function shrinkUrlPopToStamp() {
+        const stampRect = urlStamp.getBoundingClientRect();
+        const popRect = urlPopCard.getBoundingClientRect();
+        const scale = Math.min(stampRect.width / popRect.width, stampRect.height / popRect.height);
+        const dx = stampRect.left + stampRect.width / 2 - (popRect.left + popRect.width / 2);
+        const dy = stampRect.top + stampRect.height / 2 - (popRect.top + popRect.height / 2);
+
+        urlPopCard.getAnimations().forEach((animation) => animation.cancel());
+        const animation = urlPopCard.animate([
+          { transform: "rotate(-2deg) scale(1)", opacity: 1 },
+          { transform: `translate(${dx}px, ${dy}px) rotate(-4deg) scale(${scale})`, opacity: 0.85 }
+        ], { duration: 720, easing: "cubic-bezier(0.5, 0, 0.2, 1)", fill: "forwards" });
+
+        animation.onfinish = () => {
+          urlPop.classList.remove("is-visible");
+          revealUrlStamp();
+          animation.cancel();
+        };
+      }
+
+      function startUrlReveal() {
+        urlUnlocked = true;
+        window.clearTimeout(urlRevealTimer);
+        urlPop.classList.remove("is-visible");
+        resetUrlStamp();
+        void urlPop.offsetWidth;
+        showUrlPop();
+        urlRevealTimer = window.setTimeout(shrinkUrlPopToStamp, 5000);
       }
 
       /* ----------------------------- Navigation ----------------------------- */
@@ -4782,9 +4846,10 @@
         currentNum.textContent = String(next + 1);
         progressBar.style.width = `${((next + 1) / total) * 100}%`;
 
-        window.clearTimeout(finalUrlTimer);
-        if (next === total - 1) {
-          finalUrlTimer = window.setTimeout(() => showUrlPop(4200), 850);
+        if (next !== total - 1 && urlUnlocked) {
+          window.clearTimeout(urlRevealTimer);
+          urlPop.classList.remove("is-visible");
+          revealUrlStamp();
         }
 
         if (options.fx !== false) {
@@ -5026,7 +5091,7 @@
           voteMsg.textContent = "Kaffet är på mig efteråt. ☕";
         }
 
-        showUrlPop(4600);
+        startUrlReveal();
       });
 
       /* ----------------------------- Editor ----------------------------- */
