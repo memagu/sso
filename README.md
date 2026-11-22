@@ -36,4 +36,4 @@ python3 -m http.server 3000
 
 ## Bilder
 
-Bilderna i presentationen är AI-genererade illustrationer och är märkta därefter i gränssnittet.
+Bilderna i presentationen är 100% äkta. Fråga inte.
