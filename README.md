@@ -4,9 +4,8 @@ En interaktiv one-page-presentation för en golvkandidatur till posten som stude
 
 ## Live
 
-Kommer att publiceras på:
-
-https://memagu.github.io/sso/
+- https://sso.gemiglite.nu/
+- https://memagu.github.io/sso/
 
 ## Filer
 
